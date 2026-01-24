@@ -21,7 +21,9 @@ namespace BookNest.Controllers
         {
             // TODO: retreive all available books for memebers
             // TODO: retreive all books for librarians
-            return View();
+
+            var model = new BookListViewModel();
+            return View(model);
         }
 
         [Authorize(Roles = Roles.Librarian)]
