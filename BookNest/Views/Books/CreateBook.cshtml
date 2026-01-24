@@ -1,5 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "New Book";
 }
+
+@model BookNest.Models.Entities.Book
+
+<div class="text-center">
+    <h1 class="display-4">Create a new book</h1>
+</div>
+
+<form asp-action="HandleCreateBookFormSubmit" asp-controller="Books" method="post">
+    <input hidden type="number" class="form-control" asp-for="Id">
+
+    <label for="Title" class="mt-4">Title</label>
+    <input class="form-control" type="text" placeholder="Enter a title" asp-for="Title">
+
+    <label for="Author Id" class="mt-4">Author Id</label>
+    @* <input class="form-control" type="text" placeholder="Enter a title" asp-for="AuthorId"> *@
+    <select class="form-control" asp-for="AuthorId">
+        <option value="">Select a number</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+
+    <label for="ISBN" class="mt-4">ISBN</label>
+    <input class="form-control" type="text" placeholder="Enter a ISBN" asp-for="ISBN">
+
+    <label for="Publisher" class="mt-4">Publisher</label>
+    <input class="form-control" type="text" placeholder="Enter a Publisher" asp-for="Publisher">
+
+    <label for="PublicationYear" class="mt-4">PublicationYear</label>
+    <input class="form-control" type="number" placeholder="2025" asp-for="PublicationYear">
+
+    <label for="Description" class="mt-4">Description</label>
+    <input class="form-control" type="text" placeholder="Enter a Description" asp-for="Description">
+
+</form>
