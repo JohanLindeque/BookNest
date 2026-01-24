@@ -16,7 +16,7 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("BookNestDB"));
         });
 
-        // default idedntity user
+        // default identity user
         builder
             .Services.AddDefaultIdentity<IdentityUser>(options =>
             {
@@ -42,6 +42,9 @@ public class Program
         app.UseRouting();
 
         app.UseAuthorization();
+
+        // enable using razorpages - identity scafolded pages for example
+        app.MapRazorPages();
 
         app.MapStaticAssets();
         app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}")
