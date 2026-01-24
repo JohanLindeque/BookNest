@@ -25,6 +25,10 @@
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\Books\" />
+    <Folder Include="Views\Checkouts\" />
+    <Folder Include="Views\Librarians\" />
+    <Folder Include="Views\Members\" />
   </ItemGroup>
 
 </Project>
