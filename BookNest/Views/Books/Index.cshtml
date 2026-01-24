@@ -3,4 +3,45 @@
     ViewData["Title"] = "List of Books";
 }
 
-@model List<BookListViewModel>
+@model BookListViewModel
+
+<div class="text-center">
+    <h1 class="display-4">
+        Books
+    </h1>
+    <br>
+    <hr>
+    <br>
+    <a asp-controller="Books" asp-action="CreateBook" class="btn btn-primary">Add</a>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>AuthorName</th>
+                <th>IsAvailable</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>@book.Title</td>
+                        <td>@book.AuthorName</td>
+                        <td>@book.IsAvailable</td>
+                        <td>
+                            <a asp-action="EditBook" asp-route-id="@book.Id">Edit</a>
+                            <a asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
