@@ -1,4 +1,5 @@
 using BookNest.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookNest;
@@ -14,6 +15,15 @@ public class Program
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("BookNestDB"));
         });
+
+        // default idedntity user
+        builder
+            .Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false; // FALSE = for development only
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>();
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
