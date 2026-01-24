@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\Authors\" />
     <Folder Include="Views\Books\" />
     <Folder Include="Views\Checkouts\" />
     <Folder Include="Views\Librarians\" />
