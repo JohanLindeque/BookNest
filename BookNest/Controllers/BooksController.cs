@@ -1,7 +1,9 @@
 using BookNest.Constants;
 using BookNest.Data;
 using BookNest.Models.Entities;
+using BookNest.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 
@@ -9,13 +11,30 @@ namespace BookNest.Controllers
 {
     public class BooksController : Controller
     {
-        
+        private readonly IBookService _bookService;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public BooksController(IBookService bookService, UserManager<IdentityUser> userManager)
+        {
+            _bookService = bookService;
+            _userManager = userManager;
+        }
+
         public async Task<ActionResult> Index()
         {
             // TODO: retreive all available books for memebers
             // TODO: retreive all books for librarians
 
-            return View();
+            // var currentUserId = User.find
+            // switch ()
+            // {
+                
+            //     default:
+            // }
+
+            var books = await _bookService.GetBooksForLibrarian();
+
+            return View(books);
         }
 
         [Authorize(Roles = Roles.Librarian)]
