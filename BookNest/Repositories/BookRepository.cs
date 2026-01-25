@@ -65,4 +65,14 @@ public class BookRepository : IRepository<Book>
 
         return availableBooks;
     }
+
+    public async Task<IEnumerable<Book>> GetByAuthorIdAsync(int authorId)
+    {
+        var authorBooks = await _context
+            .Books.Include(book => book.Author)
+            .Where(book => book.AuthorId == authorId)
+            .ToListAsync();
+
+        return authorBooks;
+    }
 }
