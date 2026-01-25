@@ -11,7 +11,7 @@ namespace BookNest.Controllers
     {
         private readonly IAuthorService _authorService;
 
-        // private readonly
+       
 
         public AuthorsController(IAuthorService authorService)
         {
@@ -45,11 +45,6 @@ namespace BookNest.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // [Authorize(Roles = Roles.Librarian)]
-        // public IActionResult Edit()
-        // {
-        //     return View();
-        // }
 
         [Authorize(Roles = Roles.Librarian)]
         public async Task<IActionResult> Edit(int id)

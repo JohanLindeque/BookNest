@@ -12,7 +12,7 @@
     <br>
     <hr>
     <br>
-    <a asp-controller="Books" asp-action="CreateBook" class="btn btn-primary">Add</a>
+    <a asp-controller="Books" asp-action="Create" class="btn btn-primary">Add</a>
     <br>
     <br>
     <table class="table">
@@ -35,8 +35,8 @@
                         <td>@book.AuthorId</td>
                         <td>@book.IsAvailable</td>
                         <td>
-                            <a asp-action="EditBook" asp-route-id="@book.Id">Edit</a>
-                            <a asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
                         </td>
                     </tr>
                 }

@@ -22,78 +22,85 @@ namespace BookNest.Controllers
 
         public async Task<ActionResult> Index()
         {
-            // TODO: retreive all available books for memebers
-            // TODO: retreive all books for librarians
+            IEnumerable<Book> books = new List<Book>();
 
-            // var currentUserId = User.find
-            // switch ()
-            // {
-                
-            //     default:
-            // }
+            // Logged in + Member role
+            if (User.IsInRole(Roles.Member))
+            {
+                books = await _bookService.GetBooksForMember();
+            }
 
-            var books = await _bookService.GetBooksForLibrarian();
+            // Logged in + Librarian role
+            if (User.IsInRole(Roles.Librarian))
+            {
+                books = await _bookService.GetBooksForLibrarian();
+            }
 
             return View(books);
         }
 
         [Authorize(Roles = Roles.Librarian)]
-        public async Task<IActionResult> CreateBook()
+        public async Task<IActionResult> Create()
         {
             return View(new Book());
         }
 
         [Authorize(Roles = Roles.Librarian)]
-        public async Task<IActionResult> EditBook(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Create(Book book)
         {
-            if (id != null)
-            {
-                // TODO: retrieve data for book by Id
-                var bookInDb = new Book
-                {
-                    Id = 1,
-                    Title = "Test book",
-                    AuthorId = 1,
-                };
+            ModelState.Remove("Author"); // TODO use ViewModel?
+            if (!ModelState.IsValid)
+                return View("Create", book);
 
-                return View(bookInDb);
-            }
-            return View(new Book());
+            await _bookService.AddNewBook(book);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = Roles.Librarian)]
-        public async Task<IActionResult> DeleteBook(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
+            var bookInDb = await _bookService.GetBookById(id);
+
+            if (bookInDb == null)
                 return NotFound();
+
+            return View(bookInDb);
+        }
+
+        [Authorize(Roles = Roles.Librarian)]
+        [HttpPost]
+        public async Task<IActionResult> Edit(Book book)
+        {
+            ModelState.Remove("Author"); // TODO use ViewModel?
+
+            if (!ModelState.IsValid)
+                return View(book);
+
+            await _bookService.UpdateBook(book);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = Roles.Librarian)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var bookInDb = await _bookService.GetBookById(id);
+
+            if (bookInDb == null)
+                return NotFound();
+
+            // TODO: if books is checked out not able to delete
+            if (!bookInDb.IsAvailable)
+            {
+                // TODO: confirm boook is not cheked out, if so error and tell user
+                // message cant delete is checkedout
             }
-
-            // TODO: confirm boook is not cheked out, if so error and tell user
-
-            // TODO: if book avaiable, able to delete
-
-            return RedirectToAction("Index");
-        }
-
-        [Authorize(Roles = Roles.Librarian)]
-        public async Task<IActionResult> HandleCreateBookFormSubmit(Book book)
-        {
-            if (!ModelState.IsValid)
-                return View("CreateBook", book);
-
-            // TODO: validate data then try and save data to DB
-
-            return RedirectToAction("Index");
-        }
-
-        [Authorize(Roles = Roles.Librarian)]
-        public async Task<IActionResult> HandleEditBookFormSubmit(Book book)
-        {
-            if (!ModelState.IsValid)
-                return View("CreateBook", book);
-
-            // TODO: validate data then try and update data to DB
+            else
+            {
+                await _bookService.DeleteBook(bookInDb.Id);
+            }
 
             return RedirectToAction("Index");
         }
