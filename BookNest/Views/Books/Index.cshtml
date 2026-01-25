@@ -3,7 +3,7 @@
     ViewData["Title"] = "List of Books";
 }
 
-@model BookListViewModel
+@model List<Book>
 
 <div class="text-center">
     <h1 class="display-4">
@@ -27,12 +27,12 @@
         </thead>
         <tbody>
             @{
-                foreach (var book in Model.Books)
+                foreach (var book in Model)
                 {
                     <tr>
                         <td>@book.Id</td>
                         <td>@book.Title</td>
-                        <td>@book.AuthorName</td>
+                        <td>@book.AuthorId</td>
                         <td>@book.IsAvailable</td>
                         <td>
                             <a asp-action="EditBook" asp-route-id="@book.Id">Edit</a>
