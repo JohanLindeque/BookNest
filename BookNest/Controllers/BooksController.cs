@@ -9,21 +9,13 @@ namespace BookNest.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public BooksController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: BooksController
+        
         public async Task<ActionResult> Index()
         {
             // TODO: retreive all available books for memebers
             // TODO: retreive all books for librarians
 
-            var model = new BookListViewModel();
-            return View(model);
+            return View();
         }
 
         [Authorize(Roles = Roles.Librarian)]

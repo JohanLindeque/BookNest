@@ -7,12 +7,7 @@ namespace BookNest.Controllers
 {
     public class CheckoutsController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public CheckoutsController(AppDbContext context)
-        {
-            _context = context;
-        }
+  
 
         [Authorize(Roles = Roles.Librarian)]
         public ActionResult AllCheckouts()

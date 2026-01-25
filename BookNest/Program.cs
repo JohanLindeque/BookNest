@@ -1,5 +1,7 @@
 using BookNest.Constants;
 using BookNest.Data;
+using BookNest.Models.Entities;
+using BookNest.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,9 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        // DI
+        builder.Services.AddScoped<IRepository<Book>, BookRepository>();
 
         var app = builder.Build();
 

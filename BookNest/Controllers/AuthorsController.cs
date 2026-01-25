@@ -8,12 +8,7 @@ namespace BookNest.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public AuthorsController(AppDbContext context)
-        {
-            _context = context;
-        }
+ 
 
         [Authorize(Roles = Roles.Librarian)]
         public async Task<ActionResult> Index()

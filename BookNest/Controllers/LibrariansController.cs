@@ -7,12 +7,7 @@ namespace BookNest.Controllers
 {
     public class LibrariansController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public LibrariansController(AppDbContext context)
-        {
-            _context = context;
-        }
+   
 
         [Authorize(Roles = Roles.Librarian)]
         public ActionResult Dashboard()
