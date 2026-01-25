@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookNest.Repositories;
 
-public class BookRepository : IRepository<Book>
+public class BookRepository : IBookRepository
 {
     private readonly AppDbContext _context;
 

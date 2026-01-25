@@ -7,23 +7,21 @@ namespace BookNest.Services;
 
 public class LibraryService : ILibraryService
 {
-    private readonly BookRepository _bookRepo;
+    private readonly IRepository<Checkout> _checkoutRepo;
+    private readonly IBookService _bookService;
 
-    public LibraryService(BookRepository bookRepo)
+    public LibraryService(IRepository<Checkout> checkoutRepo, IBookService bookService)
     {
-        _bookRepo = bookRepo;
+        _checkoutRepo = checkoutRepo;
+        _bookService = bookService;
     }
 
-    public void CheckoutBook(int bookId, string memberId)
-    {
-        throw new NotImplementedException();
-    }
+    public void CheckoutBook(int bookId, string memberId) { }
 
     public Task<IEnumerable<Checkout>> GetAllCheckouts()
     {
         throw new NotImplementedException();
     }
-
 
     public Task<IEnumerable<Checkout>> GetMemberActiveCheckouts(string memberId)
     {

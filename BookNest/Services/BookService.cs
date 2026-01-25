@@ -6,9 +6,9 @@ namespace BookNest.Services;
 
 public class BookService : IBookService
 {
-    private readonly BookRepository _bookRepo;
+    private readonly IBookRepository _bookRepo;
 
-    public BookService(BookRepository bookRepo)
+    public BookService(IBookRepository bookRepo)
     {
         _bookRepo = bookRepo;
     }

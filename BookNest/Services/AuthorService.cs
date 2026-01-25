@@ -8,9 +8,9 @@ namespace BookNest.Services;
 
 public class AuthorService : IAuthorService
 {
-    private readonly AuthorRepository _authorRepo;
+    private readonly IRepository<Author> _authorRepo;
 
-    public AuthorService(AuthorRepository authRepo)
+    public AuthorService(IRepository<Author> authRepo)
     {
         _authorRepo = authRepo;
     }

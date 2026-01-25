@@ -33,12 +33,13 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         // DI
-        builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.Services.AddScoped<IRepository<Checkout>, CheckoutRepository>();
         builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 
         builder.Services.AddScoped<ILibraryService, LibraryService>();
-
+        builder.Services.AddScoped<IBookService, BookService>();
+        builder.Services.AddScoped<IAuthorService, AuthorService>();
 
         var app = builder.Build();
 
