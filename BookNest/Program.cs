@@ -2,6 +2,7 @@ using BookNest.Constants;
 using BookNest.Data;
 using BookNest.Models.Entities;
 using BookNest.Repositories;
+using BookNest.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,11 @@ public class Program
 
         // DI
         builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+        builder.Services.AddScoped<IRepository<Checkout>, CheckoutRepository>();
+        builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
+
+        builder.Services.AddScoped<ILibraryService, LibraryService>();
+
 
         var app = builder.Build();
 
