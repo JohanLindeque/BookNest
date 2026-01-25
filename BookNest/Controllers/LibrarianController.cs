@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookNest.Controllers
 {
-    public class LibrariansController : Controller
+    public class LibrarianController : Controller
     {
    
 

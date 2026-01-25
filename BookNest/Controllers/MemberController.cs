@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookNest.Controllers
 {
-    public class MembersController : Controller
+    public class MemberController : Controller
     {
-
         [Authorize(Roles = Roles.Member)]
         public ActionResult Dashboard()
         {

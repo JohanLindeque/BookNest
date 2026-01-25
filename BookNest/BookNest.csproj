@@ -26,8 +26,8 @@
     <Folder Include="Repositories\" />
     <Folder Include="Views\Books\" />
     <Folder Include="Views\Checkouts\" />
-    <Folder Include="Views\Librarians\" />
-    <Folder Include="Views\Members\" />
+    <Folder Include="Views\Librarian\" />
+    <Folder Include="Views\Member\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using BookNest.Constants;
 using BookNest.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,24 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
+        // not logged in
+        if (!User.Identity?.IsAuthenticated ?? true)
+        {
+            return View();
+        }
+
+        // Logged in + Member role
+        if (User.IsInRole(Roles.Member))
+        {
+            return RedirectToAction("Dashboard", "Member");
+        }
+
+        // Logged in + Librarian role
+        if (User.IsInRole(Roles.Librarian))
+        {
+            return RedirectToAction("Dashboard", "Librarian");
+        }
+
         return View();
     }
 
