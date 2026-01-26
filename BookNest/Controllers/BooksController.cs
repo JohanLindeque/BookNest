@@ -60,12 +60,10 @@ namespace BookNest.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BookCreateViewModel bookVm)
         {
-
-
             if (!ModelState.IsValid)
-                return View("Create", bookVm);
+                return View(bookVm);
 
-            // await _bookService.AddNewBook(book);
+            await _bookService.AddNewBook(bookVm);
 
             return RedirectToAction(nameof(Index));
         }
@@ -78,19 +76,19 @@ namespace BookNest.Controllers
             if (bookInDb == null)
                 return NotFound();
 
-            return View(bookInDb);
+            var bookVm = await _bookService.BuildEditViewModel(bookInDb);
+
+            return View(bookVm);
         }
 
         [Authorize(Roles = Roles.Librarian)]
         [HttpPost]
-        public async Task<IActionResult> Edit(Book book)
+        public async Task<IActionResult> Edit(BookEditViewModel bookVm)
         {
-            ModelState.Remove("Author"); // TODO use ViewModel?
-
             if (!ModelState.IsValid)
-                return View(book);
+                return View(bookVm);
 
-            await _bookService.UpdateBook(book);
+            await _bookService.UpdateBook(bookVm);
 
             return RedirectToAction(nameof(Index));
         }

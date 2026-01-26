@@ -10,8 +10,10 @@ namespace BookNest.Models.Entities
         [Required]
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+
         [Required]
         public string ISBN { get; set; }
+
         [Required]
         public int PublicationYear { get; set; }
         public string Publisher { get; set; } = string.Empty;
@@ -21,7 +23,7 @@ namespace BookNest.Models.Entities
         public Author Author { get; set; }
 
         public bool IsAvailable { get; set; } = true;
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public ICollection<Checkout> Checkouts { get; set; } = new List<Checkout>();
     }

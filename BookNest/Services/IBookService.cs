@@ -1,5 +1,6 @@
 using System;
 using BookNest.Models.Entities;
+using BookNest.ViewModels;
 
 namespace BookNest.Services;
 
@@ -10,7 +11,8 @@ public interface IBookService
     Task<IEnumerable<Book>> GetBooksByAuthor(int authorId);
 
     Task<Book> GetBookById(int bookId);
-    Task AddNewBook(Book newBook);
-    Task UpdateBook(Book book);
+    Task AddNewBook(BookCreateViewModel bookVm);
+    Task UpdateBook(BookEditViewModel bookVm);
     Task DeleteBook(int bookId);
+    Task <BookEditViewModel> BuildEditViewModel(Book book);
 }
