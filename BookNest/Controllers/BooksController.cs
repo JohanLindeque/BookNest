@@ -50,6 +50,10 @@ namespace BookNest.Controllers
         public async Task<IActionResult> Create(Book book)
         {
             ModelState.Remove("Author"); // TODO use ViewModel?
+
+            
+
+
             if (!ModelState.IsValid)
                 return View("Create", book);
 

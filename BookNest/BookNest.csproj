@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Repositories\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="Views\Checkouts\" />
     <Folder Include="Views\Librarian\" />
     <Folder Include="Views\Member\" />
