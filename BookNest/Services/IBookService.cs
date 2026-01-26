@@ -13,6 +13,9 @@ public interface IBookService
     Task<Book> GetBookById(int bookId);
     Task AddNewBook(BookCreateViewModel bookVm);
     Task UpdateBook(BookEditViewModel bookVm);
+    Task UpdateBook(Book book);
     Task DeleteBook(int bookId);
     Task <BookEditViewModel> BuildEditViewModel(Book book);
+    Task<bool> BookExisits(int bookId);
+
 }

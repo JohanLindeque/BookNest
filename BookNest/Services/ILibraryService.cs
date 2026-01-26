@@ -5,8 +5,8 @@ namespace BookNest.Services;
 
 public interface ILibraryService
 {
-    void CheckoutBook(int bookId, string memberId);
-    void ReturnBook(int checkoutId);
+    Task CheckoutBook(int bookId, string memberId);
+    Task ReturnBook(int checkoutId);
 
     Task<IEnumerable<Checkout>> GetMemberActiveCheckouts(string memberId);
     Task<IEnumerable<Checkout>> GetMemberCheckoutHistory(string memberId);

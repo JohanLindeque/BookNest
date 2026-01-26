@@ -17,13 +17,13 @@ namespace BookNest.Models.Entities
         public IdentityUser Member { get; set; }
 
         [Required]
-        public DateTime CheckoutDate { get; set; }
+        public DateTime CheckoutDate { get; set; } = DateTime.Now;
 
         [Required]
-        public DateTime DueDate { get; set; }
+        public DateTime DueDate { get; set; } = DateTime.Today.AddDays(21);
         public DateTime? ReturnedDate { get; set; }
 
         public bool IsReturned => ReturnedDate.HasValue;
-        public bool IsOverdue => !IsReturned && DateTime.UtcNow > DueDate;
+        public bool IsOverdue => !IsReturned && DateTime.Now > DueDate;
     }
 }

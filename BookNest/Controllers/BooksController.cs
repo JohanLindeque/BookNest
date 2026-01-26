@@ -14,17 +14,14 @@ namespace BookNest.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
-        private readonly UserManager<IdentityUser> _userManager;
 
         public BooksController(
             IBookService bookService,
-            IAuthorService authorService,
-            UserManager<IdentityUser> userManager
+            IAuthorService authorService
         )
         {
             _bookService = bookService;
             _authorService = authorService;
-            _userManager = userManager;
         }
 
         public async Task<ActionResult> Index()
@@ -101,7 +98,6 @@ namespace BookNest.Controllers
             if (bookInDb == null)
                 return NotFound();
 
-            // TODO: if books is checked out not able to delete
             if (!bookInDb.IsAvailable)
             {
                 // TODO: confirm boook is not cheked out, if so error and tell user

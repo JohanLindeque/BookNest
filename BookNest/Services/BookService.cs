@@ -185,6 +185,18 @@ public class BookService : IBookService
         }
     }
 
+    public async Task UpdateBook(Book book)
+    {
+        try
+        {
+            await _bookRepo.UpdateAsync(book);
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
     public async Task<BookEditViewModel> BuildEditViewModel(Book book)
     {
         var bookVm = new BookEditViewModel
@@ -202,5 +214,15 @@ public class BookService : IBookService
         };
 
         return bookVm;
+    }
+
+    public async Task<bool> BookExisits(int bookId)
+    {
+        var book = await GetBookById(bookId);
+
+        if (book == null)
+            return false;
+
+        return true;
     }
 }
