@@ -6,8 +6,8 @@ namespace BookNest.Services;
 
 public interface IBookService
 {
-    Task<IEnumerable<Book>> GetBooksForMember();
-    Task<IEnumerable<Book>> GetBooksForLibrarian();
+    Task<IEnumerable<BookListItemViewModel>> GetBooksForMember();
+    Task<IEnumerable<BookListItemViewModel>> GetBooksForLibrarian();
     Task<IEnumerable<Book>> GetBooksByAuthor(int authorId);
 
     Task<Book> GetBookById(int bookId);

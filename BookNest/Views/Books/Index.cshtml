@@ -1,9 +1,12 @@
-﻿@using BookNest.Models.Entities
+﻿@using BookNest.Constants
+@using BookNest.Models.Entities
+@using BookNest.ViewModels
+
 @{
     ViewData["Title"] = "List of Books";
 }
 
-@model List<Book>
+@model List<BookListItemViewModel>
 
 <div class="text-center">
     <h1 class="display-4">
@@ -12,7 +15,10 @@
     <br>
     <hr>
     <br>
-    <a asp-controller="Books" asp-action="Create" class="btn btn-primary">Add</a>
+    @if (User.IsInRole(Roles.Librarian))
+    {
+        <a asp-controller="Books" asp-action="Create" class="btn btn-primary">Add</a>
+    }
     <br>
     <br>
     <table class="table">
@@ -20,9 +26,14 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>AuthorName</th>
-                <th>IsAvailable</th>
-                <th>Actions</th>
+                <th>ISBN</th>
+                <th>Publication Year</th>
+                <th>Author</th>
+                @if (User.IsInRole(Roles.Librarian))
+                {
+                    <th>Available</th>
+                    <th>Actions</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -32,12 +43,18 @@
                     <tr>
                         <td>@book.Id</td>
                         <td>@book.Title</td>
-                        <td>@book.AuthorId</td>
-                        <td>@book.IsAvailable</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                        </td>
+                        <td>@book.ISBN</td>
+                        <td>@book.PublicationYear</td>
+                        <td>@book.AuthorName</td>
+                        @if (User.IsInRole(Roles.Librarian))
+                        {
+                            <td>@book.IsAvailable</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                            </td>
+                        }
+
                     </tr>
                 }
             }

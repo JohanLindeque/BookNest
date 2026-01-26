@@ -66,13 +66,40 @@ public class BookService : IBookService
         }
     }
 
-    public async Task<IEnumerable<Book>> GetBooksForLibrarian()
+    public async Task<IEnumerable<BookListItemViewModel>> GetBooksForLibrarian()
     {
         try
         {
             var availableBooks = await _bookRepo.GetAllAsync();
 
-            return availableBooks;
+            var bookVmList = new List<BookListItemViewModel>();
+
+            if (!availableBooks.Any())
+                return bookVmList;
+
+            foreach (var book in availableBooks)
+            {
+                var author = await _authorService.GetAuthorById(book.AuthorId);
+
+                if (author == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                var bookVm = new BookListItemViewModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ISBN = book.ISBN,
+                    PublicationYear = book.PublicationYear,
+                    IsAvailable = book.IsAvailable,
+                    AuthorName = author.FirstName + " " + author.LastName,
+                };
+
+                bookVmList.Add(bookVm);
+            }
+
+            return bookVmList;
         }
         catch (System.Exception)
         {
@@ -80,13 +107,40 @@ public class BookService : IBookService
         }
     }
 
-    public async Task<IEnumerable<Book>> GetBooksForMember()
+    public async Task<IEnumerable<BookListItemViewModel>> GetBooksForMember()
     {
         try
         {
             var availableBooks = await _bookRepo.GetAvailableAsync();
 
-            return availableBooks;
+            var bookVmList = new List<BookListItemViewModel>();
+
+            if (!availableBooks.Any())
+                return bookVmList;
+
+            foreach (var book in availableBooks)
+            {
+                var author = await _authorService.GetAuthorById(book.AuthorId);
+
+                if (author == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                var bookVm = new BookListItemViewModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ISBN = book.ISBN,
+                    PublicationYear = book.PublicationYear,
+                    IsAvailable = book.IsAvailable,
+                    AuthorName = author.FirstName + " " + author.LastName,
+                };
+
+                bookVmList.Add(bookVm);
+            }
+
+            return bookVmList;
         }
         catch (System.Exception)
         {

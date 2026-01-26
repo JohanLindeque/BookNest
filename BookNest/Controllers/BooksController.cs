@@ -29,21 +29,21 @@ namespace BookNest.Controllers
 
         public async Task<ActionResult> Index()
         {
-            IEnumerable<Book> books = new List<Book>();
+            IEnumerable<BookListItemViewModel> booksVmList = new List<BookListItemViewModel>();
 
             // Logged in + Member role
             if (User.IsInRole(Roles.Member))
             {
-                books = await _bookService.GetBooksForMember();
+                booksVmList = await _bookService.GetBooksForMember();
             }
 
             // Logged in + Librarian role
             if (User.IsInRole(Roles.Librarian))
             {
-                books = await _bookService.GetBooksForLibrarian();
+                booksVmList = await _bookService.GetBooksForLibrarian();
             }
 
-            return View(books);
+            return View(booksVmList);
         }
 
         [Authorize(Roles = Roles.Librarian)]
