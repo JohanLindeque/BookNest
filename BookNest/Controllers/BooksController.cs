@@ -2,6 +2,7 @@ using BookNest.Constants;
 using BookNest.Data;
 using BookNest.Models.Entities;
 using BookNest.Services;
+using BookNest.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,17 @@ namespace BookNest.Controllers
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
+        private readonly IAuthorService _authorService;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public BooksController(IBookService bookService, UserManager<IdentityUser> userManager)
+        public BooksController(
+            IBookService bookService,
+            IAuthorService authorService,
+            UserManager<IdentityUser> userManager
+        )
         {
             _bookService = bookService;
+            _authorService = authorService;
             _userManager = userManager;
         }
 
@@ -42,22 +49,23 @@ namespace BookNest.Controllers
         [Authorize(Roles = Roles.Librarian)]
         public async Task<IActionResult> Create()
         {
-            return View(new Book());
+            var bookVm = new BookCreateViewModel
+            {
+                Authors = await _authorService.BuildAuthorDropDownList(),
+            };
+            return View(bookVm);
         }
 
         [Authorize(Roles = Roles.Librarian)]
         [HttpPost]
-        public async Task<IActionResult> Create(Book book)
+        public async Task<IActionResult> Create(BookCreateViewModel bookVm)
         {
-            ModelState.Remove("Author"); // TODO use ViewModel?
-
-            
 
 
             if (!ModelState.IsValid)
-                return View("Create", book);
+                return View("Create", bookVm);
 
-            await _bookService.AddNewBook(book);
+            // await _bookService.AddNewBook(book);
 
             return RedirectToAction(nameof(Index));
         }

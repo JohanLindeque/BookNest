@@ -2,6 +2,8 @@ using System;
 using BookNest.Data;
 using BookNest.Models.Entities;
 using BookNest.Repositories;
+using BookNest.ViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace BookNest.Services;
@@ -20,6 +22,35 @@ public class AuthorService : IAuthorService
         try
         {
             await _authorRepo.AddAsync(newAuthor);
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<AuthorDropdownViewModel>> BuildAuthorDropDownList()
+    {
+        try
+        {
+            var authors = await GetAllAuthors();
+            var dropDownList = new List<AuthorDropdownViewModel>();
+
+            if (authors.Any())
+            {
+                foreach (var author in authors)
+                {
+                    dropDownList.Add(
+                        new AuthorDropdownViewModel
+                        {
+                            Id = author.Id,
+                            FullName = author.FirstName + " " + author.LastName,
+                        }
+                    );
+                }
+            }
+
+            return dropDownList;
         }
         catch (System.Exception)
         {

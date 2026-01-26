@@ -1,6 +1,6 @@
 ﻿@using BookNest.Models.Entities
 
-@model BookNest.Models.Entities.Book
+@model BookNest.ViewModels.BookCreateViewModel
 
 <div class="text-center">
     <h1 class="display-4">Create a new book</h1>
@@ -18,7 +18,12 @@
         @* TODO: populate drop down *@
         <select class="form-control" asp-for="AuthorId">
             <option value="1">1</option>
-            <option value="2">2</option>
+            @{
+                foreach (var author in Model.Authors)
+                {
+                    <option value="@author.Id">@author.FullName</option>
+                }
+            }
         </select>
     </div>
 
