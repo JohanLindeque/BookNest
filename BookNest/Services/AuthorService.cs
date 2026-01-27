@@ -19,94 +19,52 @@ public class AuthorService : IAuthorService
 
     public async Task AddNewAuthor(Author newAuthor)
     {
-        try
-        {
-            await _authorRepo.AddAsync(newAuthor);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _authorRepo.AddAsync(newAuthor);
     }
 
     public async Task<IEnumerable<AuthorDropdownViewModel>> BuildAuthorDropDownList()
     {
-        try
-        {
-            var authors = await GetAllAuthors();
-            var dropDownList = new List<AuthorDropdownViewModel>();
+        var authors = await GetAllAuthors();
+        var dropDownList = new List<AuthorDropdownViewModel>();
 
-            if (authors.Any())
+        if (authors.Any())
+        {
+            foreach (var author in authors)
             {
-                foreach (var author in authors)
-                {
-                    dropDownList.Add(
-                        new AuthorDropdownViewModel
-                        {
-                            Id = author.Id,
-                            FullName = author.FirstName + " " + author.LastName,
-                        }
-                    );
-                }
+                dropDownList.Add(
+                    new AuthorDropdownViewModel
+                    {
+                        Id = author.Id,
+                        FullName = author.FirstName + " " + author.LastName,
+                    }
+                );
             }
+        }
 
-            return dropDownList;
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        return dropDownList;
     }
 
     public async Task DeleteAuthor(int authorId)
     {
-        try
-        {
-            await _authorRepo.DeleteAsync(authorId);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _authorRepo.DeleteAsync(authorId);
     }
 
     public async Task<IEnumerable<Author>> GetAllAuthors()
     {
-        try
-        {
-            var authors = await _authorRepo.GetAllAsync();
+        var authors = await _authorRepo.GetAllAsync();
 
-            return authors;
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        return authors;
     }
 
     public async Task<Author> GetAuthorById(int authorId)
     {
-        try
-        {
-            var author = await _authorRepo.GetByIdAsync(authorId);
+        var author = await _authorRepo.GetByIdAsync(authorId);
 
-            return author;
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        return author;
     }
 
     public async Task UpdateAuthor(Author author)
     {
-        try
-        {
-            await _authorRepo.UpdateAsync(author);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _authorRepo.UpdateAsync(author);
     }
 }

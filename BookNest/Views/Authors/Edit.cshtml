@@ -6,6 +6,10 @@
     <h1>Edit Author</h1>
 </div>
 
+@await Html.PartialAsync("_AlertsPartial")
+
+<br>
+
 <form asp-action="Edit" asp-controller="Authors" method="post">
     <input hidden type="number" class="form-control" asp-for="Id">
 

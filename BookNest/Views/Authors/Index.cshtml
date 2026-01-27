@@ -9,41 +9,43 @@
     <h1 class="display-4">
         Authors
     </h1>
-    <br>
-    <hr>
-    <br>
-    <a asp-controller="Authors" asp-action="Create" class="btn btn-primary">Add</a>
-    <br>
-    <br>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Date of Birth</th>
-                <th>Biography</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var author in Model)
-                {
-                    <tr>
-                        <td>@author.Id</td>
-                        <td>@author.FirstName</td>
-                        <td>@author.LastName</td>
-                        <td>@author.DateOfBirth</td>
-                        <td>@author.Biography</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@author.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@author.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
 </div>
+<br>
+<hr>
+
+@await Html.PartialAsync("_AlertsPartial")
+
+<br>
+<a asp-controller="Authors" asp-action="Create" class="btn btn-primary">Add</a>
+<br>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Biography</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var author in Model)
+            {
+                <tr>
+                    <td>@author.Id</td>
+                    <td>@author.FirstName</td>
+                    <td>@author.LastName</td>
+                    <td>@author.DateOfBirth</td>
+                    <td>@author.Biography</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@author.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@author.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

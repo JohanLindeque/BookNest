@@ -26,7 +26,7 @@ public class AuthorRepository : IRepository<Author>
         var authorEntry = await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
 
         if (authorEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Author with id {id} was not found.");
 
         _context.Authors.Remove(authorEntry);
         await _context.SaveChangesAsync();
@@ -44,7 +44,7 @@ public class AuthorRepository : IRepository<Author>
         var authorEntry = await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
 
         if (authorEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Author with id {id} was not found.");
 
         return authorEntry;
     }
