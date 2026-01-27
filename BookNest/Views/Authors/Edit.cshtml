@@ -16,21 +16,25 @@
     <div class="mb-3">
         <label class="form-label" asp-for="FirstName"></label>
         <input class="form-control" type="text" placeholder="Enter a name" asp-for="FirstName">
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" asp-for="LastName"></label>
         <input class="form-control" type="text" placeholder="Enter a last name" asp-for="LastName">
+        <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" asp-for="DateOfBirth"></label>
         <input class="form-control" type="date" asp-for="DateOfBirth">
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" asp-for="Biography"></label>
         <textarea class="form-control" type="text" asp-for="Biography"></textarea>
+        <span asp-validation-for="Biography" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-success">Update</button>

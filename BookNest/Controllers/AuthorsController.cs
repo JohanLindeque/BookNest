@@ -115,7 +115,7 @@ namespace BookNest.Controllers
                 var authorBooks = await _bookService.GetBooksByAuthor(id);
                 if (authorBooks.Any())
                 {
-                    TempData["Error"] = "Cannot delete author with existing books.";
+                    TempData["Info"] = "Cannot delete author with existing books.";
                 }
                 else
                 {
