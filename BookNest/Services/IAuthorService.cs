@@ -1,5 +1,6 @@
 using System;
 using BookNest.Models.Entities;
+using BookNest.ViewModels;
 
 namespace BookNest.Services;
 
@@ -10,4 +11,5 @@ public interface IAuthorService
     Task AddNewAuthor(Author newAuthor);
     Task UpdateAuthor(Author author);
     Task DeleteAuthor(int authorId);
+    Task<IEnumerable<AuthorDropdownViewModel>> BuildAuthorDropDownList();
 }

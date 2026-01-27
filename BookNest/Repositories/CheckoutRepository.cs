@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookNest.Repositories;
 
-public class CheckoutRepository : IRepository<Checkout>
+public class CheckoutRepository : ICheckoutRepository
 {
     private readonly AppDbContext _context;
 
@@ -67,5 +67,16 @@ public class CheckoutRepository : IRepository<Checkout>
             .ToListAsync();
 
         return memberCheckouts;
+    }
+
+    public async Task<IEnumerable<Checkout>> GetAllOverdueAsync()
+    {
+        var now = DateTime.UtcNow;
+
+        var overdueCheckouts = await _context
+            .Checkouts.Where(chk => chk.ReturnedDate == null && chk.DueDate < now)
+            .ToListAsync();
+
+        return overdueCheckouts;
     }
 }

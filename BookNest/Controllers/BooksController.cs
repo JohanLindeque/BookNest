@@ -2,6 +2,7 @@ using BookNest.Constants;
 using BookNest.Data;
 using BookNest.Models.Entities;
 using BookNest.Services;
+using BookNest.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,48 +13,54 @@ namespace BookNest.Controllers
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IAuthorService _authorService;
 
-        public BooksController(IBookService bookService, UserManager<IdentityUser> userManager)
+        public BooksController(
+            IBookService bookService,
+            IAuthorService authorService
+        )
         {
             _bookService = bookService;
-            _userManager = userManager;
+            _authorService = authorService;
         }
 
         public async Task<ActionResult> Index()
         {
-            IEnumerable<Book> books = new List<Book>();
+            IEnumerable<BookListItemViewModel> booksVmList = new List<BookListItemViewModel>();
 
             // Logged in + Member role
             if (User.IsInRole(Roles.Member))
             {
-                books = await _bookService.GetBooksForMember();
+                booksVmList = await _bookService.GetBooksForMember();
             }
 
             // Logged in + Librarian role
             if (User.IsInRole(Roles.Librarian))
             {
-                books = await _bookService.GetBooksForLibrarian();
+                booksVmList = await _bookService.GetBooksForLibrarian();
             }
 
-            return View(books);
+            return View(booksVmList);
         }
 
         [Authorize(Roles = Roles.Librarian)]
         public async Task<IActionResult> Create()
         {
-            return View(new Book());
+            var bookVm = new BookCreateViewModel
+            {
+                Authors = await _authorService.BuildAuthorDropDownList(),
+            };
+            return View(bookVm);
         }
 
         [Authorize(Roles = Roles.Librarian)]
         [HttpPost]
-        public async Task<IActionResult> Create(Book book)
+        public async Task<IActionResult> Create(BookCreateViewModel bookVm)
         {
-            ModelState.Remove("Author"); // TODO use ViewModel?
             if (!ModelState.IsValid)
-                return View("Create", book);
+                return View(bookVm);
 
-            await _bookService.AddNewBook(book);
+            await _bookService.AddNewBook(bookVm);
 
             return RedirectToAction(nameof(Index));
         }
@@ -66,19 +73,19 @@ namespace BookNest.Controllers
             if (bookInDb == null)
                 return NotFound();
 
-            return View(bookInDb);
+            var bookVm = await _bookService.BuildEditViewModel(bookInDb);
+
+            return View(bookVm);
         }
 
         [Authorize(Roles = Roles.Librarian)]
         [HttpPost]
-        public async Task<IActionResult> Edit(Book book)
+        public async Task<IActionResult> Edit(BookEditViewModel bookVm)
         {
-            ModelState.Remove("Author"); // TODO use ViewModel?
-
             if (!ModelState.IsValid)
-                return View(book);
+                return View(bookVm);
 
-            await _bookService.UpdateBook(book);
+            await _bookService.UpdateBook(bookVm);
 
             return RedirectToAction(nameof(Index));
         }
@@ -91,7 +98,6 @@ namespace BookNest.Controllers
             if (bookInDb == null)
                 return NotFound();
 
-            // TODO: if books is checked out not able to delete
             if (!bookInDb.IsAvailable)
             {
                 // TODO: confirm boook is not cheked out, if so error and tell user

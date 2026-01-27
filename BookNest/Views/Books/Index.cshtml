@@ -1,47 +1,69 @@
-﻿@using BookNest.Models.Entities
+﻿@using BookNest.Constants
+@using BookNest.Models.Entities
+@using BookNest.ViewModels
+
 @{
     ViewData["Title"] = "List of Books";
 }
 
-@model List<Book>
+@model List<BookListItemViewModel>
 
 <div class="text-center">
     <h1 class="display-4">
         Books
     </h1>
-    <br>
-    <hr>
-    <br>
+</div>
+
+<br>
+<hr>
+<br>
+@if (User.IsInRole(Roles.Librarian))
+{
     <a asp-controller="Books" asp-action="Create" class="btn btn-primary">Add</a>
-    <br>
-    <br>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>AuthorName</th>
-                <th>IsAvailable</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var book in Model)
-                {
-                    <tr>
-                        <td>@book.Id</td>
-                        <td>@book.Title</td>
-                        <td>@book.AuthorId</td>
-                        <td>@book.IsAvailable</td>
-                        <td>
+}
+<br>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>ISBN</th>
+            <th>Publication Year</th>
+            <th>Author</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>@book.Title</td>
+                    <td>@book.ISBN</td>
+                    <td>@book.PublicationYear</td>
+                    <td>@book.AuthorName</td>
+                    <td>@book.IsAvailable</td>
+
+                    <td>
+                        @* todo view *@
+
+                        @if (User.IsInRole(Roles.Librarian))
+                        {
                             <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
                             <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+                        }
 
-</div>
+                        @if (User.IsInRole(Roles.Member))
+                        {
+                            <a asp-controller="Checkouts" asp-action="Checkout" asp-route-id="@book.Id">Checkout</a>
+                        }
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+</table>
