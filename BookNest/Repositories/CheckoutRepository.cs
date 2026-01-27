@@ -71,8 +71,10 @@ public class CheckoutRepository : ICheckoutRepository
 
     public async Task<IEnumerable<Checkout>> GetAllOverdueAsync()
     {
+        var now = DateTime.UtcNow;
+
         var overdueCheckouts = await _context
-            .Checkouts.Where(chk => chk.IsOverdue == true)
+            .Checkouts.Where(chk => chk.ReturnedDate == null && chk.DueDate < now)
             .ToListAsync();
 
         return overdueCheckouts;

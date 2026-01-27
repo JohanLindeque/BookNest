@@ -54,6 +54,17 @@ public class LibraryService : ILibraryService
         return previousCheckouts;
     }
 
+    public async Task<IEnumerable<Checkout>> GetMemberOverdueCheckouts(string memberId)
+    {
+        var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
+
+        var overdueCheckouts = allCheckouts
+            .Where(chk => chk.IsReturned == false && chk.IsOverdue == true)
+            .ToList();
+
+        return overdueCheckouts;
+    }
+
     public async Task<IEnumerable<Checkout>> GetOverdueCheckouts()
     {
         var overdueCheckouts = await _checkoutRepo.GetAllOverdueAsync();

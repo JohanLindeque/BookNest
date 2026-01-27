@@ -10,6 +10,7 @@ public interface ILibraryService
 
     Task<IEnumerable<Checkout>> GetMemberActiveCheckouts(string memberId);
     Task<IEnumerable<Checkout>> GetMemberCheckoutHistory(string memberId);
+    Task<IEnumerable<Checkout>> GetMemberOverdueCheckouts(string memberId);
 
     Task<IEnumerable<Checkout>> GetAllCheckouts();
     Task<IEnumerable<Checkout>> GetOverdueCheckouts();

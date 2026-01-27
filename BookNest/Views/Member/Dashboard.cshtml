@@ -1,7 +1,43 @@
-﻿@{
+﻿@using BookNest.Models.Entities
+@{
     ViewData["Title"] = "Memeber Dashboard";
 }
 
 <div>
     <h1>Hi there our awesome member!</h1>
 </div>
+
+@model List<Checkout>
+
+<h1>overdue Checkouts</h1>
+
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>book id</th>
+            <th>member id</th>
+            <th>checkout date</th>
+            <th>due date</th>
+            <th>returned</th>
+            <th>overdue</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var checkout in Model)
+            {
+                <tr>
+                    <td>@checkout.Id</td>
+                    <td>@checkout.BookId</td>
+                    <td>@checkout.MemberId</td>
+                    <td>@checkout.CheckoutDate</td>
+                    <td>@checkout.DueDate</td>
+                    <td>@checkout.IsReturned</td>
+                    <td>@checkout.IsOverdue</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

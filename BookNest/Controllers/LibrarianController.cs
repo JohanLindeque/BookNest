@@ -1,5 +1,6 @@
 using BookNest.Constants;
 using BookNest.Data;
+using BookNest.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,20 +8,21 @@ namespace BookNest.Controllers
 {
     public class LibrarianController : Controller
     {
-   
+        private readonly ILibraryService _libraryService;
 
-        [Authorize(Roles = Roles.Librarian)]
-        public ActionResult Dashboard()
+        public LibrarianController(ILibraryService libraryService)
         {
-            // TODO: retrieve checkouts for all memebers
-            return View();
+            _libraryService = libraryService;
         }
 
         [Authorize(Roles = Roles.Librarian)]
-        public ActionResult Overdue()
+        public async Task<ActionResult> Dashboard()
         {
             // TODO: retrieve checkouts for all memebers
-            return View();
+            var checkouts = await _libraryService.GetOverdueCheckouts();
+            return View(checkouts);
         }
+
+      
     }
 }
