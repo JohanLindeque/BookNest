@@ -1,5 +1,6 @@
 using BookNest.Constants;
 using BookNest.Data;
+using BookNest.Models.Entities;
 using BookNest.Repositories;
 using BookNest.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -62,10 +63,13 @@ namespace BookNest.Controllers
         }
 
         [Authorize(Roles = Roles.Member)]
-        public async Task<ActionResult> Checkout(int bookId)
+        public async Task<ActionResult> Checkout(int id)
         {
             // TODO: Checkout book for memeber
             // TODO: check business roles
+
+            if (id == 0)
+                return RedirectToAction("Index", "Books");
 
             var memeberCheckouts = await _libraryService.GetMemberActiveCheckouts(
                 _userManager.GetUserId(User)
@@ -74,25 +78,25 @@ namespace BookNest.Controllers
             if (memeberCheckouts.Count() == 5)
             {
                 // TODO message cant checkout book
-                return RedirectToAction("Books", "Index");
+                return RedirectToAction("Index", "Books");
             }
 
-            if (!await _bookService.BookExisits(bookId))
+            if (!await _bookService.BookExisits(id))
             {
                 return NotFound();
             }
 
-            await _libraryService.CheckoutBook(bookId, _userManager.GetUserId(User));
+            await _libraryService.CheckoutBook(id, _userManager.GetUserId(User));
 
-            return RedirectToAction("Books", "Index");
+            return RedirectToAction("Index", "Books");
         }
 
         [Authorize(Roles = Roles.Librarian)]
-        public async Task<ActionResult> Return(int checkoutId)
+        public async Task<ActionResult> Return(int id)
         {
-            await _libraryService.ReturnBook(checkoutId);
+            await _libraryService.ReturnBook(id);
 
-            return RedirectToAction("Books", "Index");
+            return RedirectToAction("Index", "Books");
         }
     }
 }

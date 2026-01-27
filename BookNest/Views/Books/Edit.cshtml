@@ -30,17 +30,22 @@
 
     <div class="mb-3">
         <label class="form-label" asp-for="ISBN"></label>
-        <input class="form-control" type="text" placeholder="Enter a name" asp-for="ISBN">
+        <input class="form-control" type="text" placeholder="Enter a ISBN" asp-for="ISBN">
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label" asp-for="IsAvailable"></label>
+        <input type="checkbox"  asp-for="IsAvailable">
     </div>
 
     <div class="mb-3">
         <label class="form-label" asp-for="Publisher"></label>
-        <input class="form-control" type="text" placeholder="Enter a name" asp-for="Publisher">
+        <input class="form-control" type="text" placeholder="Enter a publisher" asp-for="Publisher">
     </div>
 
     <div class="mb-3">
         <label class="form-label" asp-for="PublicationYear">Publication Year</label>
-        <input class="form-control" type="int" placeholder="Enter a name" asp-for="PublicationYear">
+        <input class="form-control" type="int"  asp-for="PublicationYear">
     </div>
 
     <div class="mb-3">

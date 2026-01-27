@@ -34,7 +34,7 @@ public class Program
 
         // DI
         builder.Services.AddScoped<IBookRepository, BookRepository>();
-        builder.Services.AddScoped<IRepository<Checkout>, CheckoutRepository>();
+        builder.Services.AddScoped<ICheckoutRepository, CheckoutRepository>();
         builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 
         builder.Services.AddScoped<ILibraryService, LibraryService>();

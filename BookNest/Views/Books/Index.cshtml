@@ -29,11 +29,8 @@
                 <th>ISBN</th>
                 <th>Publication Year</th>
                 <th>Author</th>
-                @if (User.IsInRole(Roles.Librarian))
-                {
-                    <th>Available</th>
-                    <th>Actions</th>
-                }
+                <th>Available</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -46,14 +43,22 @@
                         <td>@book.ISBN</td>
                         <td>@book.PublicationYear</td>
                         <td>@book.AuthorName</td>
-                        @if (User.IsInRole(Roles.Librarian))
-                        {
-                            <td>@book.IsAvailable</td>
-                            <td>
+                        <td>@book.IsAvailable</td>
+
+                        <td>
+                            @* todo view *@
+
+                            @if (User.IsInRole(Roles.Librarian))
+                            {
                                 <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
                                 <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                            </td>
-                        }
+                            }
+
+                            @if (User.IsInRole(Roles.Member))
+                            {
+                                <a asp-controller="Checkouts" asp-action="Checkout" asp-route-id="@book.Id">Checkout</a>
+                            }
+                        </td>
 
                     </tr>
                 }

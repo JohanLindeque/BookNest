@@ -41,7 +41,7 @@ public class LibraryService : ILibraryService
     {
         var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
 
-        var activeCheckouts = allCheckouts.Where(chk => chk.IsReturned == false);
+        var activeCheckouts = allCheckouts.Where(chk => chk.IsReturned == false).ToList();
 
         return activeCheckouts;
     }
@@ -50,7 +50,7 @@ public class LibraryService : ILibraryService
     {
         var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
 
-        var previousCheckouts = allCheckouts.Where(chk => chk.IsReturned == true);
+        var previousCheckouts = allCheckouts.Where(chk => chk.IsReturned == true).ToList();
         return previousCheckouts;
     }
 
