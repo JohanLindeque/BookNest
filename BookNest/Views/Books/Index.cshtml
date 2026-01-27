@@ -1,5 +1,4 @@
 ﻿@using BookNest.Constants
-@using BookNest.Models.Entities
 @using BookNest.ViewModels
 
 @{
@@ -9,21 +8,19 @@
 @model List<BookListItemViewModel>
 
 <div class="text-center">
-    <h1 class="display-4">
-        Books
-    </h1>
+    <h1 class="display-4">Books</h1>
 </div>
 
-<br>
-<hr>
-<br>
+<hr />
+
 @if (User.IsInRole(Roles.Librarian))
 {
-    <a asp-controller="Books" asp-action="Create" class="btn btn-primary">Add</a>
+    <a asp-controller="Books" asp-action="Create" class="btn btn-primary mb-3">
+        Add
+    </a>
 }
-<br>
-<br>
-<table class="table">
+
+<table id="booksTable" class="table table-striped table-hover align-middle">
     <thead>
         <tr>
             <th>Id</th>
@@ -36,34 +33,74 @@
         </tr>
     </thead>
     <tbody>
-        @{
-            foreach (var book in Model)
-            {
-                <tr>
-                    <td>@book.Id</td>
-                    <td>@book.Title</td>
-                    <td>@book.ISBN</td>
-                    <td>@book.PublicationYear</td>
-                    <td>@book.AuthorName</td>
-                    <td>@book.IsAvailable</td>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Id</td>
+                <td>@book.Title</td>
+                <td>@book.ISBN</td>
+                <td>@book.PublicationYear</td>
+                <td>@book.AuthorName</td>
+                <td>
+                    @if (book.IsAvailable)
+                    {
+                        <span class="badge bg-success">Yes</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>
+                    @if (User.IsInRole(Roles.Librarian))
+                    {
+                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-outline-info btn-sm me-1">
+                            Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-outline-danger btn-sm">
+                            Delete
+                        </a>
+                    }
 
-                    <td>
-                        @* todo view *@
-
-                        @if (User.IsInRole(Roles.Librarian))
-                        {
-                            <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                        }
-
-                        @if (User.IsInRole(Roles.Member))
-                        {
-                            <a asp-controller="Checkouts" asp-action="Checkout" asp-route-id="@book.Id">Checkout</a>
-                        }
-                    </td>
-
-                </tr>
-            }
+                    @if (User.IsInRole(Roles.Member) && book.IsAvailable)
+                    {
+                        <a asp-controller="Checkouts" asp-action="Checkout" asp-route-id="@book.Id"
+                            class="btn btn-outline-success btn-sm">
+                            Checkout
+                        </a>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#booksTable').DataTable({
+                pageLength: 10,
+                ordering: true,
+                searching: true,
+                info: true,
+
+                columnDefs: [
+                    { orderable: false, targets: 6 } // Actions
+                ],
+
+                dom:
+                    "<'row mb-3'" +
+                    "<'col-sm-12 col-md-6'l>" +
+                    "<'col-sm-12 col-md-6 text-end'f>" +
+                    ">" +
+                    "<'row'" +
+                    "<'col-sm-12'tr>" +
+                    ">" +
+                    "<'row mt-3'" +
+                    "<'col-sm-12 col-md-5'i>" +
+                    "<'col-sm-12 col-md-7 text-end'p>" +
+                    ">"
+            });
+        });
+    </script>
+}
