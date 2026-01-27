@@ -42,9 +42,13 @@
 
                     @if (User.IsInRole(Roles.Librarian))
                     {
-                        <td>
-                            <a asp-action="Return" asp-route-id="@checkout.Id">Return</a>
-                        </td>
+                        if (!checkout.IsReturned)
+                        {
+                            <td>
+                                <a asp-action="Return" asp-route-id="@checkout.Id">Return</a>
+                            </td>
+                        }
+
                     }
 
                 </tr>

@@ -44,7 +44,10 @@ namespace BookNest.Controllers
         public async Task<IActionResult> Create(Author author)
         {
             if (!ModelState.IsValid)
+            {
+                TempData["Info"] = "Please fill in all the fields";
                 return View("Create", author);
+            }
 
             try
             {
@@ -81,7 +84,10 @@ namespace BookNest.Controllers
         public async Task<IActionResult> Edit(Author author)
         {
             if (!ModelState.IsValid)
+            {
+                TempData["Info"] = "Please fill in all the fields";
                 return View(author);
+            }
 
             try
             {
