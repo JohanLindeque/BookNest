@@ -37,16 +37,20 @@ public class CheckoutRepository : ICheckoutRepository
 
     public async Task<IEnumerable<Checkout>> GetAllAsync()
     {
-        var checkoutsInDb = await _context.Checkouts.ToListAsync();
+        var checkoutsInDb = await _context
+            .Checkouts.Include(c => c.Book)
+            .Include(c => c.Member)
+            .ToListAsync();
 
         return checkoutsInDb;
     }
 
     public async Task<Checkout> GetByIdAsync(int id)
     {
-        var checkoutEntry = await _context.Checkouts.FirstOrDefaultAsync(checkout =>
-            checkout.Id == id
-        );
+        var checkoutEntry = await _context
+            .Checkouts.Include(c => c.Book)
+            .Include(c => c.Member)
+            .FirstOrDefaultAsync(checkout => checkout.Id == id);
 
         if (checkoutEntry == null)
             throw new KeyNotFoundException();
@@ -64,6 +68,8 @@ public class CheckoutRepository : ICheckoutRepository
     {
         var memberCheckouts = await _context
             .Checkouts.Where(chk => chk.MemberId == memberId)
+            .Include(c => c.Book)
+            .Include(c => c.Member)
             .ToListAsync();
 
         return memberCheckouts;
@@ -75,6 +81,8 @@ public class CheckoutRepository : ICheckoutRepository
 
         var overdueCheckouts = await _context
             .Checkouts.Where(chk => chk.ReturnedDate == null && chk.DueDate < now)
+            .Include(c => c.Book)
+            .Include(c => c.Member)
             .ToListAsync();
 
         return overdueCheckouts;

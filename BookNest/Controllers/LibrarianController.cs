@@ -18,7 +18,6 @@ namespace BookNest.Controllers
         [Authorize(Roles = Roles.Librarian)]
         public async Task<ActionResult> Dashboard()
         {
-            // TODO: retrieve checkouts for all memebers
             var checkouts = await _libraryService.GetOverdueCheckouts();
             return View(checkouts);
         }

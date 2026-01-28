@@ -25,7 +25,6 @@
 <table id="booksTable" class="table table-striped table-hover align-middle">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Title</th>
             <th>ISBN</th>
             <th>Publication Year</th>
@@ -38,7 +37,6 @@
         @foreach (var book in Model)
         {
             <tr>
-                <td>@book.Id</td>
                 <td>@book.Title</td>
                 <td>@book.ISBN</td>
                 <td>@book.PublicationYear</td>
@@ -87,7 +85,7 @@
                 info: true,
 
                 columnDefs: [
-                    { orderable: false, targets: 6 } // Actions
+                    { orderable: false, targets: -1 } // Actions
                 ],
 
                 dom:

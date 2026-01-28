@@ -25,8 +25,7 @@ namespace BookNest.Controllers
         [Authorize(Roles = Roles.Member)]
         public async Task<ActionResult> Dashboard()
         {
-            // TODO: retrieve Current & past checkouts for memeber
-            var overdue = await _libraryService.GetMemberOverdueCheckouts(
+            var overdue = await _libraryService.GetMemberActiveCheckouts(
                 _userManager.GetUserId(User)
             );
             return View(overdue);

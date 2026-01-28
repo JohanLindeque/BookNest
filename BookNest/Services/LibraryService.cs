@@ -2,6 +2,9 @@ using System;
 using System.Reflection.Metadata.Ecma335;
 using BookNest.Models.Entities;
 using BookNest.Repositories;
+using BookNest.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using SQLitePCL;
 
 namespace BookNest.Services;
@@ -10,11 +13,17 @@ public class LibraryService : ILibraryService
 {
     private readonly ICheckoutRepository _checkoutRepo;
     private readonly IBookService _bookService;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public LibraryService(ICheckoutRepository checkoutRepo, IBookService bookService)
+    public LibraryService(
+        ICheckoutRepository checkoutRepo,
+        IBookService bookService,
+        UserManager<IdentityUser> userManager
+    )
     {
         _checkoutRepo = checkoutRepo;
         _bookService = bookService;
+        _userManager = userManager;
     }
 
     public async Task CheckoutBook(int bookId, string memberId)
@@ -30,31 +39,34 @@ public class LibraryService : ILibraryService
         await _bookService.UpdateBook(book);
     }
 
-    public async Task<IEnumerable<Checkout>> GetAllCheckouts()
+    public async Task<IEnumerable<CheckoutListViewModel>> GetAllCheckouts()
     {
         var allCheckouts = await _checkoutRepo.GetAllAsync();
 
-        return allCheckouts;
+        var checkouts = allCheckouts.ToList();
+
+        return BuildCheckoutVmList(checkouts);
     }
 
-    public async Task<IEnumerable<Checkout>> GetMemberActiveCheckouts(string memberId)
+    public async Task<IEnumerable<CheckoutListViewModel>> GetMemberActiveCheckouts(string memberId)
     {
         var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
 
         var activeCheckouts = allCheckouts.Where(chk => chk.IsReturned == false).ToList();
 
-        return activeCheckouts;
+        return BuildCheckoutVmList(activeCheckouts);
     }
 
-    public async Task<IEnumerable<Checkout>> GetMemberCheckoutHistory(string memberId)
+    public async Task<IEnumerable<CheckoutListViewModel>> GetMemberCheckoutHistory(string memberId)
     {
         var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
 
         var previousCheckouts = allCheckouts.Where(chk => chk.IsReturned == true).ToList();
-        return previousCheckouts;
+
+        return BuildCheckoutVmList(previousCheckouts);
     }
 
-    public async Task<IEnumerable<Checkout>> GetMemberOverdueCheckouts(string memberId)
+    public async Task<IEnumerable<CheckoutListViewModel>> GetMemberOverdueCheckouts(string memberId)
     {
         var allCheckouts = await _checkoutRepo.GetByUserIdAsync(memberId);
 
@@ -62,14 +74,16 @@ public class LibraryService : ILibraryService
             .Where(chk => chk.IsReturned == false && chk.IsOverdue == true)
             .ToList();
 
-        return overdueCheckouts;
+        return BuildCheckoutVmList(overdueCheckouts);
     }
 
-    public async Task<IEnumerable<Checkout>> GetOverdueCheckouts()
+    public async Task<IEnumerable<CheckoutListViewModel>> GetOverdueCheckouts()
     {
         var overdueCheckouts = await _checkoutRepo.GetAllOverdueAsync();
 
-        return overdueCheckouts;
+        var checkouts = overdueCheckouts.ToList();
+
+        return BuildCheckoutVmList(checkouts);
     }
 
     public async Task ReturnBook(int checkoutId)
@@ -90,5 +104,30 @@ public class LibraryService : ILibraryService
         book.IsAvailable = true;
 
         await _bookService.UpdateBook(book);
+    }
+
+    private static IEnumerable<CheckoutListViewModel> BuildCheckoutVmList(
+        List<Checkout> checkoutsInDb
+    )
+    {
+        var checkoutVmList = new List<CheckoutListViewModel>();
+
+        foreach (var checkout in checkoutsInDb)
+        {
+            var checkoutVm = new CheckoutListViewModel
+            {
+                Id = checkout.Id,
+                BookTitle = checkout.Book.Title,
+                MemberEmail = checkout.Member.Email,
+                CheckoutDate = checkout.CheckoutDate,
+                DueDate = checkout.DueDate,
+                IsReturned = checkout.IsReturned,
+                IsOverdue = checkout.IsOverdue,
+            };
+
+            checkoutVmList.Add(checkoutVm);
+        }
+
+        return checkoutVmList;
     }
 }

@@ -53,14 +53,14 @@ namespace BookNest.Controllers
             return View(memberCheckouts);
         }
 
-        [Authorize(Roles = Roles.Member)]
-        public async Task<ActionResult> ActiveCheckouts()
-        {
-            var memberCheckouts = await _libraryService.GetMemberActiveCheckouts(
-                _userManager.GetUserId(User)
-            );
-            return View(memberCheckouts);
-        }
+        // [Authorize(Roles = Roles.Member)]
+        // public async Task<ActionResult> ActiveCheckouts()
+        // {
+        //     var memberCheckouts = await _libraryService.GetMemberActiveCheckouts(
+        //         _userManager.GetUserId(User)
+        //     );
+        //     return View(memberCheckouts);
+        // }
 
         [Authorize(Roles = Roles.Member)]
         public async Task<ActionResult> Checkout(int id)
@@ -97,7 +97,7 @@ namespace BookNest.Controllers
         {
             await _libraryService.ReturnBook(id);
 
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction(nameof(AllCheckouts));
         }
     }
 }
