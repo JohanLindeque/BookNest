@@ -12,6 +12,8 @@
 </div>
 
 <hr />
+@await Html.PartialAsync("_AlertsPartial")
+<br>
 
 @if (User.IsInRole(Roles.Librarian))
 {

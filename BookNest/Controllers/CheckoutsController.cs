@@ -78,6 +78,7 @@ namespace BookNest.Controllers
             if (memeberCheckouts.Count() == 5)
             {
                 // TODO message cant checkout book
+                TempData["Info"] = "You may not checkout more than 5 books at a time.";
                 return RedirectToAction("Index", "Books");
             }
 
