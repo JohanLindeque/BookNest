@@ -15,4 +15,5 @@ public interface ILibraryService
 
     Task<IEnumerable<CheckoutListViewModel>> GetAllCheckouts();
     Task<IEnumerable<CheckoutListViewModel>> GetOverdueCheckouts();
+    Task<IEnumerable<MemberListViewModel>> GetMembersInfo();
 }

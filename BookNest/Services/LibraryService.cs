@@ -1,5 +1,6 @@
 using System;
 using System.Reflection.Metadata.Ecma335;
+using BookNest.Constants;
 using BookNest.Models.Entities;
 using BookNest.Repositories;
 using BookNest.ViewModels;
@@ -90,11 +91,6 @@ public class LibraryService : ILibraryService
     {
         var checkout = await _checkoutRepo.GetByIdAsync(checkoutId);
 
-        if (checkout == null)
-        {
-            throw new KeyNotFoundException();
-        }
-
         checkout.ReturnedDate = DateTime.Now;
 
         await _checkoutRepo.UpdateAsync(checkout);
@@ -129,5 +125,25 @@ public class LibraryService : ILibraryService
         }
 
         return checkoutVmList;
+    }
+
+    public async Task<IEnumerable<MemberListViewModel>> GetMembersInfo()
+    {
+        var members = await _userManager.GetUsersInRoleAsync(Roles.Member);
+
+        var memberList = members
+            .Select(u => new MemberListViewModel { UserId = u.Id, UserName = u.UserName })
+            .ToList();
+
+        foreach (var member in memberList)
+        {
+            var activeCheckouts = await GetMemberActiveCheckouts(member.UserId);
+            var overdueCheckouts = await GetMemberOverdueCheckouts(member.UserId);
+
+            member.ActiveCheckoutsCount = activeCheckouts.Count();
+            member.OverdueCheckoutsCount = overdueCheckouts.Count();
+        }
+
+        return memberList;
     }
 }

@@ -1,0 +1,56 @@
+﻿@using BookNest.Models.Entities
+@using BookNest.ViewModels
+@model List<MemberListViewModel>
+
+<div class="text-center">
+    <h1 class="display-4">Members overview</h1>
+</div>
+
+<hr />
+
+@await Html.PartialAsync("_AlertsPartial")
+
+
+<table id="memberTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Active Checkouts</th>
+            <th>Overdue Checkouts</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model)
+        {
+            <tr>
+                <td>@member.UserName</td>
+                <td>@member.ActiveCheckoutsCount</td>
+                <td>
+                    @if (member.OverdueCheckoutsCount > 0)
+                    {
+                        <span class="text-danger">@member.OverdueCheckoutsCount</span>
+                    }
+                    else
+                    {
+                        <span>@member.OverdueCheckoutsCount</span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#memberTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+
+            });
+        });
+    </script>
+}

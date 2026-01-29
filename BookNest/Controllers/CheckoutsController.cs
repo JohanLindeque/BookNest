@@ -69,11 +69,11 @@ namespace BookNest.Controllers
                 if (id == 0)
                     return RedirectToAction("Index", "Books");
 
-                var memeberCheckouts = await _libraryService.GetMemberActiveCheckouts(
+                var memberCheckouts = await _libraryService.GetMemberActiveCheckouts(
                     _userManager.GetUserId(User)
                 );
 
-                if (memeberCheckouts.Count() == 5)
+                if (memberCheckouts.Count() == 5)
                 {
                     TempData["Info"] = "You may not checkout more than 5 books at a time.";
                     return RedirectToAction("Index", "Books");

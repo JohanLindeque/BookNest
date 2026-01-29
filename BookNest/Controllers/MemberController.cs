@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace BookNest.Controllers
 {
+    [Authorize(Roles = Roles.Member)]
     public class MemberController : Controller
     {
         private readonly ILibraryService _libraryService;
@@ -22,7 +23,6 @@ namespace BookNest.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = Roles.Member)]
         public async Task<ActionResult> Dashboard()
         {
             try

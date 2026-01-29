@@ -47,6 +47,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Checkouts"
                                     asp-action="AllCheckouts">All Checkouts</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Librarian"
+                                    asp-action="Members">Memebers Overview</a>
+                            </li>
                         }
 
                         @if (User.IsInRole(Roles.Member))
