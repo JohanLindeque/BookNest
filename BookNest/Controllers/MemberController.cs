@@ -25,10 +25,22 @@ namespace BookNest.Controllers
         [Authorize(Roles = Roles.Member)]
         public async Task<ActionResult> Dashboard()
         {
-            var overdue = await _libraryService.GetMemberActiveCheckouts(
-                _userManager.GetUserId(User)
-            );
-            return View(overdue);
+            try
+            {
+                var overdue = await _libraryService.GetMemberActiveCheckouts(
+                    _userManager.GetUserId(User)
+                );
+                return View(overdue);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Failed to load active checkouts.";
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

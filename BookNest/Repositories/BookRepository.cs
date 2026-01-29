@@ -27,7 +27,7 @@ public class BookRepository : IBookRepository
         var bookEntry = await _context.Books.FirstOrDefaultAsync(book => book.Id == id);
 
         if (bookEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Book with id {id} was not found.");
 
         _context.Books.Remove(bookEntry);
         await _context.SaveChangesAsync();
@@ -45,7 +45,7 @@ public class BookRepository : IBookRepository
         var bookEntry = await _context.Books.FirstOrDefaultAsync(book => book.Id == id);
 
         if (bookEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Book with id {id} was not found.");
 
         return bookEntry;
     }

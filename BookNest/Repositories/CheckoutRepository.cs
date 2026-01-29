@@ -29,7 +29,7 @@ public class CheckoutRepository : ICheckoutRepository
         );
 
         if (checkoutEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Checkout with id {id} was not found.");
 
         _context.Checkouts.Remove(checkoutEntry);
         await _context.SaveChangesAsync();
@@ -53,7 +53,7 @@ public class CheckoutRepository : ICheckoutRepository
             .FirstOrDefaultAsync(checkout => checkout.Id == id);
 
         if (checkoutEntry == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Checkout with id {id} was not found.");
 
         return checkoutEntry;
     }

@@ -18,183 +18,117 @@ public class BookService : IBookService
 
     public async Task AddNewBook(BookCreateViewModel bookVm)
     {
-        try
+        var newBook = new Book
         {
-            var newBook = new Book
-            {
-                Title = bookVm.Title,
-                Description = bookVm.Description,
-                ISBN = bookVm.ISBN,
-                PublicationYear = bookVm.PublicationYear,
-                Publisher = bookVm.Publisher,
-                AuthorId = bookVm.AuthorId,
-            };
+            Title = bookVm.Title,
+            Description = bookVm.Description,
+            ISBN = bookVm.ISBN,
+            PublicationYear = bookVm.PublicationYear,
+            Publisher = bookVm.Publisher,
+            AuthorId = bookVm.AuthorId,
+        };
 
-            await _bookRepo.AddAsync(newBook);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _bookRepo.AddAsync(newBook);
     }
 
     public async Task<Book> GetBookById(int bookId)
     {
-        try
-        {
-            var book = await _bookRepo.GetByIdAsync(bookId);
+        var book = await _bookRepo.GetByIdAsync(bookId);
 
-            return book;
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        return book;
     }
 
     public async Task<IEnumerable<Book>> GetBooksByAuthor(int authorId)
     {
-        try
-        {
-            var booksByAuthor = await _bookRepo.GetByAuthorIdAsync(authorId);
+        var booksByAuthor = await _bookRepo.GetByAuthorIdAsync(authorId);
 
-            return booksByAuthor;
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        return booksByAuthor;
     }
 
     public async Task<IEnumerable<BookListItemViewModel>> GetBooksForLibrarian()
     {
-        try
-        {
-            var availableBooks = await _bookRepo.GetAllAsync();
+        var availableBooks = await _bookRepo.GetAllAsync();
 
-            var bookVmList = new List<BookListItemViewModel>();
+        var bookVmList = new List<BookListItemViewModel>();
 
-            if (!availableBooks.Any())
-                return bookVmList;
-
-            foreach (var book in availableBooks)
-            {
-                var author = await _authorService.GetAuthorById(book.AuthorId);
-
-                if (author == null)
-                {
-                    throw new KeyNotFoundException();
-                }
-
-                var bookVm = new BookListItemViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    ISBN = book.ISBN,
-                    PublicationYear = book.PublicationYear,
-                    IsAvailable = book.IsAvailable,
-                    AuthorName = author.FirstName + " " + author.LastName,
-                };
-
-                bookVmList.Add(bookVm);
-            }
-
+        if (!availableBooks.Any())
             return bookVmList;
-        }
-        catch (System.Exception)
+
+        foreach (var book in availableBooks)
         {
-            throw;
+            var author = await _authorService.GetAuthorById(book.AuthorId);
+
+            var bookVm = new BookListItemViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                ISBN = book.ISBN,
+                PublicationYear = book.PublicationYear,
+                IsAvailable = book.IsAvailable,
+                AuthorName = author.FirstName + " " + author.LastName,
+            };
+
+            bookVmList.Add(bookVm);
         }
+
+        return bookVmList;
     }
 
     public async Task<IEnumerable<BookListItemViewModel>> GetBooksForMember()
     {
-        try
-        {
-            var availableBooks = await _bookRepo.GetAvailableAsync();
+        var availableBooks = await _bookRepo.GetAvailableAsync();
 
-            var bookVmList = new List<BookListItemViewModel>();
+        var bookVmList = new List<BookListItemViewModel>();
 
-            if (!availableBooks.Any())
-                return bookVmList;
-
-            foreach (var book in availableBooks)
-            {
-                var author = await _authorService.GetAuthorById(book.AuthorId);
-
-                if (author == null)
-                {
-                    throw new KeyNotFoundException();
-                }
-
-                var bookVm = new BookListItemViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    ISBN = book.ISBN,
-                    PublicationYear = book.PublicationYear,
-                    IsAvailable = book.IsAvailable,
-                    AuthorName = author.FirstName + " " + author.LastName,
-                };
-
-                bookVmList.Add(bookVm);
-            }
-
+        if (!availableBooks.Any())
             return bookVmList;
-        }
-        catch (System.Exception)
+
+        foreach (var book in availableBooks)
         {
-            throw;
+            var author = await _authorService.GetAuthorById(book.AuthorId);
+
+            var bookVm = new BookListItemViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                ISBN = book.ISBN,
+                PublicationYear = book.PublicationYear,
+                IsAvailable = book.IsAvailable,
+                AuthorName = author.FirstName + " " + author.LastName,
+            };
+
+            bookVmList.Add(bookVm);
         }
+
+        return bookVmList;
     }
 
     public async Task DeleteBook(int bookId)
     {
-        try
-        {
-            await _bookRepo.DeleteAsync(bookId);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _bookRepo.DeleteAsync(bookId);
     }
 
     public async Task UpdateBook(BookEditViewModel bookVm)
     {
-        try
+        var book = new Book
         {
-            var book = new Book
-            {
-                Id = bookVm.Id,
-                Title = bookVm.Title,
-                Description = bookVm.Description,
-                ISBN = bookVm.ISBN,
-                PublicationYear = bookVm.PublicationYear,
-                Publisher = bookVm.Publisher,
-                AuthorId = bookVm.AuthorId,
-                IsAvailable = bookVm.IsAvailable,
-                CreatedAt = bookVm.CreatedAt,
-            };
+            Id = bookVm.Id,
+            Title = bookVm.Title,
+            Description = bookVm.Description,
+            ISBN = bookVm.ISBN,
+            PublicationYear = bookVm.PublicationYear,
+            Publisher = bookVm.Publisher,
+            AuthorId = bookVm.AuthorId,
+            IsAvailable = bookVm.IsAvailable,
+            CreatedAt = bookVm.CreatedAt,
+        };
 
-            await _bookRepo.UpdateAsync(book);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _bookRepo.UpdateAsync(book);
     }
 
     public async Task UpdateBook(Book book)
     {
-        try
-        {
-            await _bookRepo.UpdateAsync(book);
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        await _bookRepo.UpdateAsync(book);
     }
 
     public async Task<BookEditViewModel> BuildEditViewModel(Book book)

@@ -9,7 +9,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        // not logged in
+        // not logged in, show landing page
         if (!User.Identity?.IsAuthenticated ?? true)
         {
             return View();

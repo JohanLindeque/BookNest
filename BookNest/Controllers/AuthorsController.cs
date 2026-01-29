@@ -29,7 +29,6 @@ namespace BookNest.Controllers
             }
             catch (Exception)
             {
-                // TODO log exception here later
                 TempData["Error"] = "Failed to load authors.";
                 return View(new List<Author>());
             }

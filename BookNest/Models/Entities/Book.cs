@@ -7,18 +7,20 @@ namespace BookNest.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; } = string.Empty;
+
+        [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
         public string Description { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "ISBN is required")]
         public string ISBN { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Publication year is required")]
         public int PublicationYear { get; set; }
         public string Publisher { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Author is required")]
         public int AuthorId { get; set; } // FK -> Author table
         public Author Author { get; set; }
 
