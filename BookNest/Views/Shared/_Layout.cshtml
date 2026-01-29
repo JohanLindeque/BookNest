@@ -31,14 +31,15 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
-                                    asp-action="Index">Books</a>
-                            </li>
+                          
                         }
 
                         @if (User.IsInRole(Roles.Librarian))
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
+                                    asp-action="Index">Books</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Authors"
                                     asp-action="Index">Authors</a>
@@ -56,8 +57,20 @@
                         @if (User.IsInRole(Roles.Member))
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
+                                    asp-action="Index">Books</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Checkouts"
                                     asp-action="PreviousCheckouts">Checkout History</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(Roles.Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin"
+                                    asp-action="Index">Librarian Overview</a>
                             </li>
                         }
                     </ul>

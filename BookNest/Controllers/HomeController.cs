@@ -27,6 +27,12 @@ public class HomeController : Controller
             return RedirectToAction("Dashboard", "Librarian");
         }
 
+        // Logged in + Admin role
+        if (User.IsInRole(Roles.Librarian))
+        {
+            return RedirectToAction("Index", "Admin");
+        }
+
         return View();
     }
 
