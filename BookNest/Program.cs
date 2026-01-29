@@ -40,6 +40,7 @@ public class Program
         builder.Services.AddScoped<ILibraryService, LibraryService>();
         builder.Services.AddScoped<IBookService, BookService>();
         builder.Services.AddScoped<IAuthorService, AuthorService>();
+        builder.Services.AddScoped<ILibrarianService, LibrarianService>();
 
         var app = builder.Build();
 

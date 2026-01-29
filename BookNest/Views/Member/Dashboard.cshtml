@@ -1,29 +1,30 @@
 ﻿@using BookNest.Models.Entities
+@using BookNest.ViewModels
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Memeber Dashboard";
+    ViewData["Title"] = "Member Dashboard";
 }
 
-<div>
-    <h1>Welcome back @UserManager.GetUserName(User)!</h1>
+@model List<CheckoutListViewModel>
+
+<div class="text-center">
+    <h1 class="display-4">Active Checkouts</h1>
 </div>
+<hr />
 
-@model List<Checkout>
-
-<h2>Overdue Checkouts</h2>
+@await Html.PartialAsync("_AlertsPartial")
 
 <br>
-<table class="table">
+<table id="checkoutTable" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>book id</th>
-            <th>member id</th>
-            <th>checkout date</th>
-            <th>due date</th>
-            <th>returned</th>
-            <th>overdue</th>
+            <th>Book Title</th>
+            <th>Member Email</th>
+            <th>Checkout Date</th>
+            <th>Due Date</th>
+            <th>Returned</th>
+            <th>Overdue</th>
         </tr>
     </thead>
     <tbody>
@@ -31,15 +32,46 @@
             foreach (var checkout in Model)
             {
                 <tr>
-                    <td>@checkout.Id</td>
-                    <td>@checkout.BookId</td>
-                    <td>@checkout.MemberId</td>
-                    <td>@checkout.CheckoutDate</td>
-                    <td>@checkout.DueDate</td>
-                    <td>@checkout.IsReturned</td>
-                    <td>@checkout.IsOverdue</td>
+                    <td>@checkout.BookTitle</td>
+                    <td>@checkout.MemberEmail</td>
+                    <td>@checkout.CheckoutDate.ToString("yyyy-MM-dd")</td>
+                    <td>@checkout.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @if (checkout.IsReturned)
+                        {
+                            <span class="text-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">No</span>
+                        }
+                    </td>
+                    <td>
+                        @if (checkout.IsOverdue)
+                        {
+                            <span class="badge bg-danger">Overdue</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">No</span>
+                        }
+                    </td>
                 </tr>
             }
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#checkoutTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                
+            });
+        });
+    </script>
+}

@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace BookNest.Controllers
 {
+    [Authorize(Roles = Roles.Member)]
     public class MemberController : Controller
     {
         private readonly ILibraryService _libraryService;
@@ -22,14 +23,24 @@ namespace BookNest.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = Roles.Member)]
         public async Task<ActionResult> Dashboard()
         {
-            // TODO: retrieve Current & past checkouts for memeber
-            var overdue = await _libraryService.GetMemberOverdueCheckouts(
-                _userManager.GetUserId(User)
-            );
-            return View(overdue);
+            try
+            {
+                var overdue = await _libraryService.GetMemberActiveCheckouts(
+                    _userManager.GetUserId(User)
+                );
+                return View(overdue);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Failed to load active checkouts.";
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

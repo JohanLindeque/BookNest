@@ -9,7 +9,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        // not logged in
+        // not logged in, show landing page
         if (!User.Identity?.IsAuthenticated ?? true)
         {
             return View();
@@ -25,6 +25,12 @@ public class HomeController : Controller
         if (User.IsInRole(Roles.Librarian))
         {
             return RedirectToAction("Dashboard", "Librarian");
+        }
+
+        // Logged in + Admin role
+        if (User.IsInRole(Roles.Librarian))
+        {
+            return RedirectToAction("Index", "Admin");
         }
 
         return View();

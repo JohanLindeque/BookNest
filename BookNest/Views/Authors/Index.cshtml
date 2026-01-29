@@ -1,28 +1,19 @@
 ﻿@using BookNest.Models.Entities
-@{
-    ViewData["Title"] = "List of Authors";
-}
-
 @model List<Author>
 
 <div class="text-center">
-    <h1 class="display-4">
-        Authors
-    </h1>
+    <h1 class="display-4">Authors</h1>
 </div>
-<br>
-<hr>
+
+<hr />
 
 @await Html.PartialAsync("_AlertsPartial")
 
-<br>
-<a asp-controller="Authors" asp-action="Create" class="btn btn-primary">Add</a>
-<br>
-<br>
-<table class="table">
+<a asp-controller="Authors" asp-action="Create" class="btn btn-primary mb-3">Add Author</a>
+
+<table id="authorsTable" class="table table-striped table-bordered">
     <thead>
         <tr>
-            @* <th>Id</th> *@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Date of Birth</th>
@@ -31,22 +22,34 @@
         </tr>
     </thead>
     <tbody>
-        @{
-            foreach (var author in Model)
-            {
-                <tr>
-                    @* <td>@author.Id</td> *@
-                    <td>@author.FirstName</td>
-                    <td>@author.LastName</td>
-                    <td>@author.DateOfBirth</td>
-                    <td>@author.Biography</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@author.Id" class="btn btn-outline-info">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@author.Id" class="btn btn-outline-danger">Delete</a>
-
-                    </td>
-                </tr>
-            }
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.FirstName</td>
+                <td>@author.LastName</td>
+                <td>@author.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+                <td>@author.Biography</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@author.Id" class="btn btn-outline-info btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@author.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#authorsTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    { orderable: false, targets: 3 }
+                ]
+            });
+        });
+    </script>
+}

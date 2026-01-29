@@ -7,6 +7,9 @@
 <div class="text-center">
     <h1 class="display-4">Update a book</h1>
 </div>
+<hr>
+@await Html.PartialAsync("_AlertsPartial")
+<br>
 
 <form asp-action="Edit" asp-controller="Books" method="post">
 
@@ -32,10 +35,10 @@
         <label class="form-label" asp-for="ISBN"></label>
         <input class="form-control" type="text" placeholder="Enter a ISBN" asp-for="ISBN">
     </div>
-    
+
     <div class="mb-3">
         <label class="form-label" asp-for="IsAvailable"></label>
-        <input type="checkbox"  asp-for="IsAvailable">
+        <input type="checkbox" asp-for="IsAvailable">
     </div>
 
     <div class="mb-3">
@@ -45,7 +48,7 @@
 
     <div class="mb-3">
         <label class="form-label" asp-for="PublicationYear">Publication Year</label>
-        <input class="form-control" type="int"  asp-for="PublicationYear">
+        <input class="form-control" type="int" asp-for="PublicationYear">
     </div>
 
     <div class="mb-3">

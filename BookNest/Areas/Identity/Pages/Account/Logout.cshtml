@@ -1,0 +1,36 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log Out";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-sm border-0" style="background-color:#fefefe;">
+                <div class="card-body">
+                    <h1 class="card-title mb-4">@ViewData["Title"]</h1>
+
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <p class="mb-4">You are currently logged in. Click below to log out of BookNest safely.</p>
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+                                Logout
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success">
+                            <h4 class="alert-heading">Success!</h4>
+                            <p>You have successfully logged out of BookNest.</p>
+                            <hr>
+                            <a href="/" class="btn btn-outline-primary px-4 py-2 rounded-pill">Return to Home</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

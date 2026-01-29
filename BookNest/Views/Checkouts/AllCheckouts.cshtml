@@ -1,25 +1,29 @@
 ﻿@using BookNest.Constants
 @using BookNest.Models.Entities
+@using BookNest.ViewModels
 @{
 
 }
 
-@model List<Checkout>
+@model List<CheckoutListViewModel>
 
-<h1>All Checkouts</h1>
+<div class="text-center">
+    <h1 class="display-4">All Checkouts</h1>
+</div>
+<hr />
+
+@await Html.PartialAsync("_AlertsPartial")
 
 <br>
-<table class="table">
+<table id="checkoutsTable" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>book id</th>
-            <th>member id</th>
-            <th>checkout date</th>
-            <th>due date</th>
-            <th>returned</th>
-            <th>overdue</th>
-            @* todo view *@
+            <th>Book Title</th>
+            <th>Member Email</th>
+            <th>Checkout Date</th>
+            <th>Due Date</th>
+            <th>Returned</th>
+            <th>Overdue</th>
 
             @if (User.IsInRole(Roles.Librarian))
             {
@@ -32,27 +36,61 @@
             foreach (var checkout in Model)
             {
                 <tr>
-                    <td>@checkout.Id</td>
-                    <td>@checkout.BookId</td>
-                    <td>@checkout.MemberId</td>
-                    <td>@checkout.CheckoutDate</td>
-                    <td>@checkout.DueDate</td>
-                    <td>@checkout.IsReturned</td>
-                    <td>@checkout.IsOverdue</td>
+                    <td>@checkout.BookTitle</td>
+                    <td>@checkout.MemberEmail</td>
+                    <td>@checkout.CheckoutDate.ToString("yyyy-MM-dd")</td>
+                    <td>@checkout.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @if (checkout.IsReturned)
+                        {
+                            <span class="badge bg-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">No</span>
+                        }
+                    </td>
+                    <td>
+                        @if (checkout.IsOverdue)
+                        {
+                            <span class="badge bg-danger">Overdue</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">No</span>
+                        }
+                    </td>
 
                     @if (User.IsInRole(Roles.Librarian))
                     {
-                        if (!checkout.IsReturned)
-                        {
-                            <td>
-                                <a asp-action="Return" asp-route-id="@checkout.Id">Return</a>
-                            </td>
-                        }
-
+                        <td>
+                            @if (!checkout.IsReturned)
+                            {
+                                <a asp-action="Return" asp-route-id="@checkout.Id" class="btn btn-info btn-sm me-1">Return</a>
+                            }
+                        </td>
                     }
+
 
                 </tr>
             }
         }
     </tbody>
 </table>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#checkoutsTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    { orderable: false, targets: -1 }
+                ]
+            });
+        });
+    </script>
+}

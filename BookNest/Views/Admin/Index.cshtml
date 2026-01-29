@@ -1,0 +1,50 @@
+﻿
+@using BookNest.ViewModels
+
+@model List<LibrarianListViewModel>
+
+<div class="text-center">
+    <h1 class="display-4">Librarians</h1>
+</div>
+
+<hr />
+
+@await Html.PartialAsync("_AlertsPartial")
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add Librarian</a>
+
+<table id="librarianTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var librarian in Model)
+        {
+            <tr>
+                <td>@librarian.Email</td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@librarian.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#librarianTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    { orderable: false, targets: -1 }
+                ]
+            });
+        });
+    </script>
+}

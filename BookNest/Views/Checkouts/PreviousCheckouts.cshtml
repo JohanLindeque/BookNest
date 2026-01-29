@@ -1,21 +1,18 @@
-﻿@using BookNest.Constants
-@using BookNest.Models.Entities
+﻿@using BookNest.Models.Entities
 @using BookNest.ViewModels
-@{
-    ViewData["Title"] = "Librarian Dashboard";
-}
+
 
 @model List<CheckoutListViewModel>
 
 <div class="text-center">
-    <h1 class="display-4">Overdue Checkouts</h1>
+    <h1 class="display-4">Previous Checkouts</h1>
 </div>
 <hr />
 
 @await Html.PartialAsync("_AlertsPartial")
 
 <br>
-<table id="overdueTable" class="table table-striped table-bordered">
+<table id="checkoutsTable" class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>Book Title</th>
@@ -24,11 +21,6 @@
             <th>Due Date</th>
             <th>Returned</th>
             <th>Overdue</th>
-
-            @if (User.IsInRole(Roles.Librarian))
-            {
-                <th>Actions</th>
-            }
         </tr>
     </thead>
     <tbody>
@@ -43,14 +35,13 @@
                     <td>
                         @if (checkout.IsReturned)
                         {
-                            <span class="text-success">Yes</span>
+                            <span class="badge bg-success">Yes</span>
                         }
                         else
                         {
-                            <span class="text-danger">No</span>
+                            <span class="badge bg-secondary">No</span>
                         }
                     </td>
-
                     <td>
                         @if (checkout.IsOverdue)
                         {
@@ -61,33 +52,21 @@
                             <span class="badge bg-primary">No</span>
                         }
                     </td>
-
-                    <td>
-                        @if (!checkout.IsReturned)
-                        {
-                            <a asp-controller="Checkouts" asp-action="Return" asp-route-id="@checkout.Id" class="btn btn-info btn-sm me-1">Return</a>
-                        }
-                    </td>
-
-
                 </tr>
             }
         }
     </tbody>
 </table>
 
-
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#overdueTable').DataTable({
+            $('#checkoutsTable').DataTable({
                 paging: true,
                 searching: true,
                 ordering: true,
                 info: true,
-                columnDefs: [
-                    { orderable: false, targets: -1 }
-                ]
+               
             });
         });
     </script>

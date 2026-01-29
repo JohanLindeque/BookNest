@@ -1,5 +1,6 @@
 using System;
 using BookNest.Models.Entities;
+using BookNest.ViewModels;
 
 namespace BookNest.Services;
 
@@ -8,10 +9,11 @@ public interface ILibraryService
     Task CheckoutBook(int bookId, string memberId);
     Task ReturnBook(int checkoutId);
 
-    Task<IEnumerable<Checkout>> GetMemberActiveCheckouts(string memberId);
-    Task<IEnumerable<Checkout>> GetMemberCheckoutHistory(string memberId);
-    Task<IEnumerable<Checkout>> GetMemberOverdueCheckouts(string memberId);
+    Task<IEnumerable<CheckoutListViewModel>> GetMemberActiveCheckouts(string memberId);
+    Task<IEnumerable<CheckoutListViewModel>> GetMemberCheckoutHistory(string memberId);
+    Task<IEnumerable<CheckoutListViewModel>> GetMemberOverdueCheckouts(string memberId);
 
-    Task<IEnumerable<Checkout>> GetAllCheckouts();
-    Task<IEnumerable<Checkout>> GetOverdueCheckouts();
+    Task<IEnumerable<CheckoutListViewModel>> GetAllCheckouts();
+    Task<IEnumerable<CheckoutListViewModel>> GetOverdueCheckouts();
+    Task<IEnumerable<MemberListViewModel>> GetMembersInfo();
 }

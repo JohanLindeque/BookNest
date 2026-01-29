@@ -5,6 +5,9 @@
 <div class="text-center">
     <h1 class="display-4">Create a new book</h1>
 </div>
+<hr>
+@await Html.PartialAsync("_AlertsPartial")
+<br>
 
 <form asp-action="Create" asp-controller="Books" method="post">
 

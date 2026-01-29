@@ -24,20 +24,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
+                        @* Left-side links *@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
-                                    asp-action="Index">Books</a>
-                            </li>
+                          
                         }
 
                         @if (User.IsInRole(Roles.Librarian))
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
+                                    asp-action="Index">Books</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Authors"
                                     asp-action="Index">Authors</a>
@@ -46,19 +48,43 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Checkouts"
                                     asp-action="AllCheckouts">All Checkouts</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Librarian"
+                                    asp-action="Members">Memebers Overview</a>
+                            </li>
                         }
 
                         @if (User.IsInRole(Roles.Member))
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Books"
+                                    asp-action="Index">Books</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Checkouts"
-                                    asp-action="ActiveCheckouts">Checkout History</a>
+                                    asp-action="PreviousCheckouts">Checkout History</a>
                             </li>
                         }
 
+                        @if (User.IsInRole(Roles.Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin"
+                                    asp-action="Index">Librarian Overview</a>
+                            </li>
+                        }
+                    </ul>
 
+                    @* Right-side user info and auth links *@
+                    <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item me-3">
+                                <span class="nav-link disabled" style="cursor: default;">
+                                    Welcome @User.Identity.Name
+                                </span>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                             </li>
@@ -91,6 +117,15 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- DataTables JS implementation -->
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <!-- DataTables core -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap 5 JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
