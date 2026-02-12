@@ -5,6 +5,8 @@ library’s books, members, librarians, and book checkouts.
 This project was built to demonstrate clean MVC architecture, Entity
 Framework Core, and role-based authentication and authorization.
 
+<img width="1863" height="842" alt="allCheckouts" src="https://github.com/user-attachments/assets/db6777e2-2406-4b93-8c00-2614e0034d0f" />
+
 ---
 
 ## Tech Stack
@@ -44,6 +46,9 @@ The following users are seeded automatically on first run for testing:
 | Member    | member@booknest.com    | P@ssw0rd  |
 
 ---
+<img width="1870" height="936" alt="ActiveMemberCheckout" src="https://github.com/user-attachments/assets/273c97f3-12af-49b8-b7ad-a386f6f7e11a" />
+
+<img width="1867" height="461" alt="overdueCheckout" src="https://github.com/user-attachments/assets/077ed1ee-3d0d-4786-8608-7acbbf50f4ca" />
 
 ## How to Run the Project
 
